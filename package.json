@@ -1,0 +1,28 @@
+{
+  "name": "rust-react-wasm-project",
+  "version": "1.0.0",
+  "description": "Rust + React + WebAssembly integrated project",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:wasm": "cd wasm_lib && wasm-pack build --target web",
+    "copy:wasm": "rm -rf react-wasm/src/wasm_pkg && cp -r wasm_lib/pkg react-wasm/src/wasm_pkg",
+    "setup:wasm": "npm run build:wasm && npm run copy:wasm",
+    "install:frontend": "cd react-wasm && npm install",
+    "dev": "npm run setup:wasm && cd react-wasm && npm run dev",
+    "dev:frontend": "cd react-wasm && npm run dev",
+    "build": "npm run setup:wasm && cd react-wasm && npm run build",
+    "preview": "cd react-wasm && npm run preview",
+    "watch:wasm": "npm run build:wasm && npm run copy:wasm",
+    "clean": "rm -rf wasm_lib/pkg wasm_lib/target react-wasm/src/wasm_pkg react-wasm/dist react-wasm/node_modules",
+    "setup": "npm run install:frontend && npm run setup:wasm"
+  },
+  "keywords": [
+    "rust",
+    "react",
+    "webassembly",
+    "wasm",
+    "vite"
+  ],
+  "license": "MIT"
+}
