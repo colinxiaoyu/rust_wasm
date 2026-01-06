@@ -1,6 +1,18 @@
 use wasm_bindgen::prelude::*;
 use web_sys::console;
 
+// Export edge detection module
+pub mod edge_detection;
+
+// Re-export the main edge detection functions
+pub use edge_detection::{
+    sobel_edge_detection,
+    extract_contour_points,
+    simplify_path,
+    group_contours,
+};
+
+// Keep existing utility functions for backwards compatibility
 #[wasm_bindgen]
 pub fn greet(name: &str) -> String {
     console::log_1(&"Rust function called from JavaScript!".into());
@@ -11,42 +23,6 @@ pub fn greet(name: &str) -> String {
 pub fn add(a: i32, b: i32) -> i32 {
     console::log_1(&format!("Adding {} + {}", a, b).into());
     a + b
-}
-
-#[wasm_bindgen]
-pub fn fibonacci(n: u32) -> u32 {
-    if n <= 1 {
-        n
-    } else {
-        fibonacci(n - 1) + fibonacci(n - 2)
-    }
-}
-
-#[wasm_bindgen]
-pub fn recolor_selective(
-    data: &mut [u8],
-    r: u8,
-    g: u8,
-    b: u8,
-    use_r: bool,
-    use_g: bool,
-    use_b: bool,
-) {
-    let len = data.len();
-    let mut i = 0;
-
-    while i < len {
-        if use_r {
-            data[i] = r;
-        }
-        if use_g {
-            data[i + 1] = g;
-        }
-        if use_b {
-            data[i + 2] = b;
-        }
-        i += 4;
-    }
 }
 
 #[wasm_bindgen]

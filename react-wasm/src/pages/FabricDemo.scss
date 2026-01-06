@@ -1,0 +1,351 @@
+// Variables
+$primary-color: #3498db;
+$secondary-color: #2c3e50;
+$success-color: #27ae60;
+$danger-color: #e74c3c;
+$warning-color: #f39c12;
+$text-color: #2c3e50;
+$bg-light: #ecf0f1;
+$bg-white: #ffffff;
+$border-color: #bdc3c7;
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+$border-radius: 8px;
+
+.fabric-demo-page {
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: $secondary-color;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      font-size: 18px;
+      color: #7f8c8d;
+    }
+  }
+
+  .demo-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    .sidebar {
+      flex: 0 0 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .tabs {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        background: $bg-white;
+        padding: 15px;
+        border-radius: $border-radius;
+        box-shadow: $shadow;
+
+        button {
+          padding: 12px 16px;
+          border: none;
+          border-radius: 6px;
+          background: $bg-light;
+          color: $text-color;
+          font-size: 15px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-align: left;
+
+          &:hover {
+            background: lighten($primary-color, 40%);
+            transform: translateX(5px);
+          }
+
+          &.active {
+            background: $primary-color;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba($primary-color, 0.3);
+          }
+        }
+      }
+
+      .tools {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background: $bg-white;
+        padding: 15px;
+        border-radius: $border-radius;
+        box-shadow: $shadow;
+        max-height: calc(100vh - 300px);
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: $bg-light;
+          border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: $border-color;
+          border-radius: 3px;
+
+          &:hover {
+            background: darken($border-color, 10%);
+          }
+        }
+
+        .tool-group {
+          padding-bottom: 15px;
+          border-bottom: 1px solid $bg-light;
+
+          &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+          }
+
+          h3 {
+            font-size: 14px;
+            color: $secondary-color;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+          }
+
+          button,
+          .file-button {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border: 1px solid $border-color;
+            border-radius: 6px;
+            background: $bg-white;
+            color: $text-color;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            &:hover:not(:disabled) {
+              background: lighten($primary-color, 45%);
+              border-color: $primary-color;
+              transform: translateX(3px);
+            }
+
+            &:active:not(:disabled) {
+              transform: translateX(0);
+            }
+
+            &.danger {
+              border-color: $danger-color;
+              color: $danger-color;
+
+              &:hover:not(:disabled) {
+                background: lighten($danger-color, 45%);
+                border-color: $danger-color;
+              }
+            }
+
+            &:disabled {
+              opacity: 0.4;
+              cursor: not-allowed;
+              transform: none;
+            }
+          }
+
+          .file-button {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    .canvas-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: $bg-white;
+      padding: 20px;
+      border-radius: $border-radius;
+      box-shadow: $shadow-lg;
+
+      canvas {
+        border: 2px solid $border-color;
+        border-radius: $border-radius;
+        box-shadow: $shadow;
+        background-image:
+          linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+          linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+          linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      }
+
+      .object-info {
+        margin-top: 20px;
+        padding: 15px;
+        background: $bg-light;
+        border-radius: $border-radius;
+        width: 100%;
+        max-width: 800px;
+
+        h4 {
+          font-size: 16px;
+          color: $secondary-color;
+          margin-bottom: 10px;
+          font-weight: 600;
+        }
+
+        p {
+          font-size: 14px;
+          color: $text-color;
+          margin: 5px 0;
+          padding: 5px 0;
+          border-bottom: 1px solid rgba($border-color, 0.3);
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  .feature-showcase {
+    max-width: 1400px;
+    margin: 40px auto 0;
+    background: $bg-white;
+    padding: 30px;
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+
+    h2 {
+      text-align: center;
+      font-size: 32px;
+      color: $secondary-color;
+      margin-bottom: 30px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+
+      .feature-item {
+        padding: 20px;
+        background: $bg-light;
+        border-radius: $border-radius;
+        text-align: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: $shadow-lg;
+          background: lighten($primary-color, 45%);
+        }
+
+        .feature-icon {
+          font-size: 48px;
+          margin-bottom: 15px;
+        }
+
+        h3 {
+          font-size: 18px;
+          color: $secondary-color;
+          margin-bottom: 10px;
+          font-weight: 600;
+        }
+
+        p {
+          font-size: 14px;
+          color: #7f8c8d;
+          line-height: 1.6;
+        }
+      }
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 1200px) {
+  .fabric-demo-page {
+    .demo-container {
+      flex-direction: column;
+
+      .sidebar {
+        flex: 1;
+
+        .tabs {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        .tools {
+          max-height: none;
+        }
+      }
+
+      .canvas-area {
+        canvas {
+          max-width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .fabric-demo-page {
+    padding: 10px;
+
+    .page-header {
+      h1 {
+        font-size: 32px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+    .demo-container {
+      .sidebar {
+        .tabs button {
+          font-size: 13px;
+          padding: 10px 12px;
+        }
+      }
+    }
+
+    .feature-showcase {
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

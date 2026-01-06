@@ -1,6 +1,8 @@
 import Home from '../pages/Home'
 import ReColorPage from '../pages/ReColorPage'
 import GrayscalePage from '../pages/GrayscalePage'
+import Annotation3D from '../pages/Annotation3D'
+import FabricDemo from '../pages/FabricDemo'
 import About from '../pages/About'
 import Settings from '../pages/Settings'
 
@@ -27,6 +29,20 @@ export const routes = [
     label: '灰度处理',
     icon: '⚫',
     element: GrayscalePage
+  },
+  {
+    path: '/annotation3d_page',
+    name: 'annotation3d',
+    label: '3D标注',
+    icon: '🎯',
+    element: Annotation3D
+  },
+  {
+    path: '/fabric_demo_page',
+    name: 'fabricdemo',
+    label: 'Fabric演示',
+    icon: '🎨',
+    element: FabricDemo
   },
   {
     path: '/about_page',
