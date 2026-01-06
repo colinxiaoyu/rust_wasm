@@ -1,0 +1,74 @@
+// Variables
+$primary-color: #3498db;
+$secondary-color: #2c3e50;
+$text-color: #555;
+$success-color: #27ae60;
+$border-color: #ecf0f1;
+$border-light: #f0f0f0;
+$white: #fff;
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+.about-content {
+  max-width: 800px;
+
+  h1 {
+    color: $secondary-color;
+    margin-bottom: 30px;
+    font-size: 42px;
+  }
+}
+
+.info-section {
+  background: $white;
+  padding: 30px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: $shadow;
+
+  h2 {
+    color: $primary-color;
+    margin-bottom: 16px;
+    font-size: 24px;
+    border-bottom: 2px solid $border-color;
+    padding-bottom: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: $text-color;
+  }
+}
+
+.tech-list,
+.feature-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 12px 0;
+    font-size: 16px;
+    color: $text-color;
+    border-bottom: 1px solid $border-light;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.tech-list li {
+  strong {
+    color: $primary-color;
+    margin-right: 8px;
+  }
+}
+
+.feature-list li {
+  &::before {
+    content: "✓";
+    color: $success-color;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+}

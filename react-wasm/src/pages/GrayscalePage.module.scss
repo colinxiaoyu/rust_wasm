@@ -1,0 +1,274 @@
+@use 'sass:color';
+
+// Variables
+$primary-color: #3498db;
+$secondary-color: #95a5a6;
+$success-color: #27ae60;
+$text-color: #2c3e50;
+$text-muted: #7f8c8d;
+$bg-gray: #f8f9fa;
+$border-color: #ecf0f1;
+$white: #fff;
+$danger-color: #e74c3c;
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$shadow-large: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+.pageContainer {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageDescription {
+  font-size: 16px;
+  color: $text-muted;
+  margin-bottom: 30px;
+}
+
+.grayscaleContainer {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 30px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.controlsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-weight: 600;
+    color: $text-color;
+    font-size: 14px;
+  }
+}
+
+.fileInput {
+  padding: 10px;
+  border: 2px dashed $primary-color;
+  border-radius: 8px;
+  cursor: pointer;
+  background: $bg-gray;
+  transition: all 0.3s ease;
+  font-size: 14px;
+
+  &:hover:not(:disabled) {
+    border-color: color.adjust($primary-color, $lightness: -10%);
+    background: color.adjust($primary-color, $lightness: 45%);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.loadingText {
+  font-size: 12px;
+  color: $danger-color;
+  margin-top: 4px;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid $border-color;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: $shadow;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-large;
+  }
+
+  &:not(:disabled):active {
+    transform: translateY(0);
+  }
+}
+
+.btnPrimary {
+  background: $primary-color;
+  color: $white;
+
+  &:not(:disabled):hover {
+    background: color.adjust($primary-color, $lightness: -10%);
+  }
+}
+
+.btnSecondary {
+  background: $secondary-color;
+  color: $white;
+
+  &:not(:disabled):hover {
+    background: color.adjust($secondary-color, $lightness: -10%);
+  }
+}
+
+.btnSuccess {
+  background: $success-color;
+  color: $white;
+
+  &:not(:disabled):hover {
+    background: color.adjust($success-color, $lightness: -10%);
+  }
+}
+
+.infoBox {
+  background: $white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: $shadow;
+  border-left: 4px solid $primary-color;
+
+  h3 {
+    font-size: 16px;
+    color: $text-color;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 14px;
+    color: $text-muted;
+    margin: 8px 0;
+  }
+
+  code {
+    display: block;
+    padding: 8px 12px;
+    background: $bg-gray;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: $text-color;
+    margin: 8px 0;
+  }
+}
+
+.infoText {
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+.canvasSection {
+  background: $white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: $shadow;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder {
+  text-align: center;
+  color: $text-muted;
+
+  p {
+    font-size: 18px;
+  }
+}
+
+.placeholderIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.canvasGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.canvasWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  h4 {
+    font-size: 16px;
+    color: $text-color;
+    margin: 0;
+    padding: 8px 16px;
+    background: $bg-gray;
+    border-radius: 6px;
+  }
+}
+
+.canvasHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.processingBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: color.adjust($primary-color, $lightness: 45%);
+  border-radius: 20px;
+  font-size: 13px;
+  color: $primary-color;
+  font-weight: 600;
+
+  span {
+    line-height: 1;
+  }
+}
+
+.miniSpinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid color.adjust($primary-color, $lightness: 30%);
+  border-top-color: $primary-color;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.canvasDisplay {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: $shadow;
+  border: 2px solid $border-color;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
