@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import styles from './GrayscalePage.module.scss'
+import styles from './GrayscaleSobelPage.module.scss'
 
-export default function GrayscalePage() {
+export default function GrayscaleSobelPage() {
   const canvasRef = useRef(null)
   const originalCanvasRef = useRef(null)
   const workerRef = useRef(null)
@@ -12,27 +12,21 @@ export default function GrayscalePage() {
   const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
-    console.log('GrayscalePage: creating worker')
-
     // 创建 Web Worker
     workerRef.current = new Worker(new URL('../worker.js', import.meta.url), {
       type: 'module',
     })
 
-    console.log('GrayscalePage: worker created, setting up message handler')
-
     // 监听 Worker 消息
     workerRef.current.onmessage = (e) => {
-      console.log('GrayscalePage: received message from worker:', e.data)
       const { type, data, error } = e.data
 
       switch (type) {
         case 'ready':
-          console.log('GrayscalePage: worker is ready')
           setReady(true)
           break
 
-        case 'grayscale_complete':
+        case 'grayscale_sobel_complete':
           const canvas = canvasRef.current
           if (canvas) {
             const ctx = canvas.getContext('2d')
@@ -53,10 +47,6 @@ export default function GrayscalePage() {
           setProcessing(false)
           break
       }
-    }
-
-    workerRef.current.onerror = (error) => {
-      console.error('GrayscalePage: worker error event:', error)
     }
 
     // 清理函数
@@ -116,7 +106,7 @@ export default function GrayscalePage() {
 
     // 发送图像数据到 Worker 处理
     workerRef.current.postMessage({
-      type: 'grayscale',
+      type: 'grayscale_sobel',
       data: {
         imageData: {
           data: originalImageData.data,
@@ -150,9 +140,9 @@ export default function GrayscalePage() {
 
   return (
     <div className={styles.pageContainer}>
-      <h1>灰度处理 - WASM</h1>
+      <h1>图像灰度化与边缘检测 - WebAssembly</h1>
       <p className={styles.pageDescription}>
-        使用 WebAssembly 将彩色图片转换为灰度图片
+        使用 Rust + WebAssembly 实现高性能图像灰度转换与 Sobel 边缘检测算法
       </p>
 
       <div className={styles.grayscaleContainer}>
@@ -177,7 +167,7 @@ export default function GrayscalePage() {
               disabled={!imageLoaded || processing}
               className={`${styles.btn} ${styles.btnPrimary}`}
             >
-              {processing ? '处理中...' : '应用灰度效果'}
+              {processing ? '处理中...' : '灰度化 + Sobel 边缘检测'}
             </button>
 
             <button
@@ -198,13 +188,28 @@ export default function GrayscalePage() {
           </div>
 
           <div className={styles.infoBox}>
-            <h3>灰度转换算法</h3>
-            <p>使用加权平均法计算灰度值：</p>
-            <code>Gray = 0.299×R + 0.587×G + 0.114×B</code>
-            <p className={styles.infoText}>
-              这个公式基于人眼对不同颜色的敏感度，
-              对绿色最敏感，其次是红色，对蓝色最不敏感。
-            </p>
+            <h3>算法原理</h3>
+            <div className={styles.algorithmSection}>
+              <h4>1. 灰度转换（Grayscale Conversion）</h4>
+              <p>采用加权平均法（ITU-R BT.601标准）：</p>
+              <code>Gray = 0.299×R + 0.587×G + 0.114×B</code>
+              <p className={styles.infoText}>
+                该公式基于人眼视觉特性，对绿色最敏感（58.7%），
+                红色次之（29.9%），蓝色最不敏感（11.4%）。
+              </p>
+            </div>
+            <div className={styles.algorithmSection}>
+              <h4>2. Sobel 边缘检测</h4>
+              <p>使用 3×3 卷积核计算梯度：</p>
+              <code>
+                Gx = [-1,0,1; -2,0,2; -1,0,1]<br/>
+                Gy = [-1,-2,-1; 0,0,0; 1,2,1]<br/>
+                G = √(Gx² + Gy²)
+              </code>
+              <p className={styles.infoText}>
+                通过计算水平和垂直方向的梯度，检测图像中的边缘特征。
+              </p>
+            </div>
           </div>
         </div>
 
@@ -228,7 +233,7 @@ export default function GrayscalePage() {
 
               <div className={styles.canvasWrapper}>
                 <div className={styles.canvasHeader}>
-                  <h4>{isGrayscale ? '灰度图' : '处理后'}</h4>
+                  <h4>{isGrayscale ? '边缘检测结果' : '处理后'}</h4>
                   {processing && (
                     <div className={styles.processingBadge}>
                       <div className={styles.miniSpinner}></div>

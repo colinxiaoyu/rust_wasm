@@ -1,12 +1,20 @@
-import init, { grayscale, recolor_selective } from './wasm_pkg/wasm_lib.js'
+console.log('worker.js: script started')
 
 let wasmReady = false
+let wasmModule = null
 
-// 初始化 WASM 模块
-init().then(() => {
-  wasmReady = true
-  self.postMessage({ type: 'ready' })
-})
+import('./wasm_pkg/wasm_lib.js')
+  .then((module) => {
+    wasmModule = module
+    return module.default() // 调用 init 函数
+  })
+  .then(() => {
+    wasmReady = true
+    self.postMessage({ type: 'ready' })
+  })
+  .catch((err) => {
+    self.postMessage({ type: 'error', error: err.message })
+  })
 
 // 监听主线程消息
 self.onmessage = async (e) => {
@@ -15,7 +23,7 @@ self.onmessage = async (e) => {
   if (!wasmReady) {
     self.postMessage({
       type: 'error',
-      error: 'WASM module not initialized yet'
+      error: 'WASM module not initialized yet',
     })
     return
   }
@@ -26,16 +34,40 @@ self.onmessage = async (e) => {
         const { imageData } = data
         const processedData = new Uint8ClampedArray(imageData.data)
 
-        grayscale(processedData)
+        wasmModule.grayscale(processedData)
 
-        self.postMessage({
-          type: 'grayscale_complete',
-          data: {
-            width: imageData.width,
-            height: imageData.height,
-            data: processedData
-          }
-        }, [processedData.buffer])
+        self.postMessage(
+          {
+            type: 'grayscale_complete',
+            data: {
+              width: imageData.width,
+              height: imageData.height,
+              data: processedData,
+            },
+          },
+          [processedData.buffer]
+        )
+        break
+      }
+      case 'grayscale_sobel': {
+        const { imageData } = data
+        const processedData = new Uint8ClampedArray(imageData.data)
+        wasmModule.grayscale_sobel(
+          processedData,
+          imageData.width,
+          imageData.height
+        )
+        self.postMessage(
+          {
+            type: 'grayscale_sobel_complete',
+            data: {
+              width: imageData.width,
+              height: imageData.height,
+              data: processedData,
+            },
+          },
+          [processedData.buffer]
+        )
         break
       }
 
@@ -43,29 +75,32 @@ self.onmessage = async (e) => {
         const { imageData, r, g, b, useR, useG, useB } = data
         const processedData = new Uint8ClampedArray(imageData.data)
 
-        recolor_selective(processedData, r, g, b, useR, useG, useB)
+        wasmModule.recolor_selective(processedData, r, g, b, useR, useG, useB)
 
-        self.postMessage({
-          type: 'recolor_complete',
-          data: {
-            width: imageData.width,
-            height: imageData.height,
-            data: processedData
-          }
-        }, [processedData.buffer])
+        self.postMessage(
+          {
+            type: 'recolor_complete',
+            data: {
+              width: imageData.width,
+              height: imageData.height,
+              data: processedData,
+            },
+          },
+          [processedData.buffer]
+        )
         break
       }
 
       default:
         self.postMessage({
           type: 'error',
-          error: `Unknown message type: ${type}`
+          error: `Unknown message type: ${type}`,
         })
     }
   } catch (error) {
     self.postMessage({
       type: 'error',
-      error: error.message
+      error: error.message,
     })
   }
 }

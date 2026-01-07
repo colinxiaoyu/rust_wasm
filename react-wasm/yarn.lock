@@ -924,7 +924,7 @@ expand-template@^2.0.3:
 
 fabric@^7.1.0:
   version "7.1.0"
-  resolved "https://registry.npmjs.org/fabric/-/fabric-7.1.0.tgz#b9826497479bcd73d33c994333892d5d7580d044"
+  resolved "https://registry.npmjs.org/fabric/-/fabric-7.1.0.tgz"
   integrity sha512-061QsoSw6xn7UoRXYq816qMyvObP4gRNVph0jAFWtG5E2kBlfdjrYBiLPRuaAHSmVQUz9RjbPpePB/hljiYJIw==
   optionalDependencies:
     canvas "^3.2.0"

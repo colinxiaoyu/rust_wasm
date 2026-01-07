@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './ReColorPage.module.scss'
 
-export default function ReColorPage () {
+export default function ReColorPage() {
   const canvasRef = useRef(null)
   const originalCanvasRef = useRef(null)
   const workerRef = useRef(null)
   const [ready, setReady] = useState(false)
   const [color, setColor] = useState({ r: 255, g: 0, b: 0 })
-  const [enabledChannels, setEnabledChannels] = useState({ r: true, g: true, b: true })
+  const [enabledChannels, setEnabledChannels] = useState({
+    r: true,
+    g: true,
+    b: true,
+  })
   const [imageLoaded, setImageLoaded] = useState(false)
   const [originalImageData, setOriginalImageData] = useState(null)
   const [processing, setProcessing] = useState(false)
@@ -15,7 +19,7 @@ export default function ReColorPage () {
   useEffect(() => {
     // 创建 Web Worker
     workerRef.current = new Worker(new URL('../worker.js', import.meta.url), {
-      type: 'module'
+      type: 'module',
     })
 
     // 监听 Worker 消息
@@ -122,15 +126,15 @@ export default function ReColorPage () {
         imageData: {
           data: originalImageData.data,
           width: originalImageData.width,
-          height: originalImageData.height
+          height: originalImageData.height,
         },
         r: color.r,
         g: color.g,
         b: color.b,
         useR: enabledChannels.r,
         useG: enabledChannels.g,
-        useB: enabledChannels.b
-      }
+        useB: enabledChannels.b,
+      },
     })
   }
 
@@ -144,7 +148,10 @@ export default function ReColorPage () {
   }
 
   const handleChannelToggle = (channel) => {
-    const newChannels = { ...enabledChannels, [channel]: !enabledChannels[channel] }
+    const newChannels = {
+      ...enabledChannels,
+      [channel]: !enabledChannels[channel],
+    }
     setEnabledChannels(newChannels)
 
     if (imageLoaded && originalImageData) {
@@ -176,7 +183,9 @@ export default function ReColorPage () {
               onChange={handleFile}
               className={styles.fileInput}
             />
-            {!ready && <p className={styles.loadingText}>正在加载 WASM 模块...</p>}
+            {!ready && (
+              <p className={styles.loadingText}>正在加载 WASM 模块...</p>
+            )}
           </div>
 
           <div className={styles.colorControls}>
@@ -253,7 +262,9 @@ export default function ReColorPage () {
               <label>预览颜色</label>
               <div
                 className={styles.colorBox}
-                style={{ backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})` }}
+                style={{
+                  backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+                }}
               />
             </div>
 
@@ -277,7 +288,10 @@ export default function ReColorPage () {
             <div className={styles.canvasGrid}>
               <div className={styles.canvasWrapper}>
                 <h4>原图</h4>
-                <canvas ref={originalCanvasRef} className={styles.canvasDisplay} />
+                <canvas
+                  ref={originalCanvasRef}
+                  className={styles.canvasDisplay}
+                />
               </div>
 
               <div className={styles.canvasWrapper}>

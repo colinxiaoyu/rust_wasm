@@ -1,19 +1,18 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import wasm from 'vite-plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import wasm from 'vite-plugin-wasm'
+import topLevelAwait from 'vite-plugin-top-level-await'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    wasm(),
-    topLevelAwait()
-  ],
+  plugins: [react(), wasm(), topLevelAwait()],
   server: {
     port: 3000,
-    open: true
+    open: true,
   },
   build: {
-    target: 'esnext'
-  }
-});
+    target: 'esnext',
+  },
+  fs: {
+    allow: ['.'], // 确保 public 下文件可访问
+  },
+})
