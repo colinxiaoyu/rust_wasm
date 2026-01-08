@@ -2,6 +2,7 @@ import Home from '../pages/Home'
 import ReColorPage from '../pages/ReColorPage'
 import GrayscalePage from '../pages/GrayscalePage'
 import GrayscaleSobelPage from '../pages/GrayscaleSobelPage'
+import GrayscaleSobelWGSLPage from '../pages/GrayscaleSobelWGSLPage'
 import Annotation3D from '../pages/Annotation3D'
 import FabricDemo from '../pages/FabricDemo'
 import About from '../pages/About'
@@ -34,11 +35,17 @@ export const routes = [
   {
     path: '/grayscale_sobel_page',
     name: 'grayscale_sobel',
-    label: '灰度sobel处理',
+    label: '灰度Sobel-WASM',
     icon: '⚫',
     element: GrayscaleSobelPage,
   },
-
+  {
+    path: '/grayscale_sobel_wgsl_page',
+    name: 'grayscale_sobel_wgsl',
+    label: '灰度Sobel-WebGPU',
+    icon: '🎮',
+    element: GrayscaleSobelWGSLPage,
+  },
   {
     path: '/annotation3d_page',
     name: 'annotation3d',
